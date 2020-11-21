@@ -4,8 +4,6 @@ import prediction
 import feedback
 import play_the_song
 
-class recommendation_system(self):
-
 if user is new:
   initialize()
 
