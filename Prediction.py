@@ -10,11 +10,33 @@ ratings_list = random.choice([1,2,3], size=400)
 Songs_df = pd.DataFrame(SongID_list, columns=['SongID'])
 ratings_df = pd.DataFrame({'UserID':UserID_list, 'SongID':Songs_list, 'Rating':ratings_list})
 
+user_Group = ratings_df.groupby('UserID')
+ratings = []
+
+# For each user in the group
+for userID, curUser in user_Group:
+
+    # Create a temp that stores every song's rating
+    temp = [0]*len(Songs_df)
+
+    # For each song in curUser's song list
+    for num, song in curUser.iterrows():
+
+        # Divide the rating by 5 and store it
+        temp[song['SongID']] = (song['Rating']+1)/2
+
+    # Add the list of ratings into the training list
+    ratings.append(temp)
+
+ratings = array(ratings).T
+did_rate = (ratings != 0) * 1
+
 #My song ratings
 my_ratings = zeros((1000,1))
 random_songs = random.randint(low=0, high=1000, size=10)
 for i in random_songs:
   my_ratings[i] = random.choice([1,2,3])
+
 
 # Add my song ratings to the matrices
 ratings = append(my_ratings, ratings, axis = 1)
